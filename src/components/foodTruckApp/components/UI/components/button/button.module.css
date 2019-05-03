@@ -1,0 +1,7 @@
+.btn {
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  color: #fff;
+  background-color: var(--main-gradient);
+}

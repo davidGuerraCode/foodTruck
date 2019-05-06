@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /**
  * Container component, here we manage all the events and data associated with the
  * signup form.
@@ -17,7 +18,7 @@
  * Take the user data and send via ajax to the server to persisted
  */
 
-import React, { userReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import style from './signUp.module.css';
 import { Aux } from '../../../hoc';
@@ -25,12 +26,15 @@ import { Background } from '../../../UI/';
 import { Card } from '../../../UI';
 import { TitleLabel } from '../../../UI';
 import { Button } from '../../../UI';
+import { Input } from '../../../UI';
+import { UpdateFormField } from './actions';
+import reducer from './signUpReducer';
 
 const signUpContainer = props => {
   const initState = {
     firstname: {
       elementType: 'input',
-      elementConfig: {
+      elementConf: {
         placeholder: 'Firstname',
         type: 'text',
         name: 'firstname'
@@ -40,7 +44,7 @@ const signUpContainer = props => {
     },
     lastname: {
       elementType: 'input',
-      elementConfig: {
+      elementConf: {
         placeholder: 'Lastname',
         type: 'text',
         name: 'lastname'
@@ -50,7 +54,7 @@ const signUpContainer = props => {
     },
     email: {
       elementType: 'input',
-      elementConfig: {
+      elementConf: {
         placeholder: 'Email',
         type: 'email',
         name: 'email'
@@ -60,7 +64,7 @@ const signUpContainer = props => {
     },
     password: {
       elementType: 'input',
-      elementConfig: {
+      elementConf: {
         placeholder: 'Password',
         type: 'password',
         name: 'password'
@@ -70,7 +74,7 @@ const signUpContainer = props => {
     },
     confirmPassword: {
       elementType: 'input',
-      elementConfig: {
+      elementConf: {
         placeholder: 'Confirm password',
         type: 'password',
         name: 'confirm password'
@@ -80,7 +84,10 @@ const signUpContainer = props => {
     }
   };
 
-  const [inputFactory, setInputFactory] = userReducer(formFieldReducer, initState);
+  const changeHandler = (event, id) =>
+    dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
+
+  const [inputFactory, dispatch] = useReducer(reducer, initState);
   const formElementsArray = [];
 
   for (const key in inputFactory) {
@@ -92,9 +99,19 @@ const signUpContainer = props => {
     }
   }
 
-  const inputs = formElementsArray,map(el => {
-    // TODO Render Input component
-  })
+  const inputs = formElementsArray.map(el => {
+    return (
+      <div key={el.id}>
+        <Input
+          changeHandler={event => changeHandler(event, el.id)}
+          elementType={el.conf.elementType}
+          elementConf={el.conf.elementConf}
+          value={el.conf.value}
+          icon={el.conf.icon}
+        />
+      </div>
+    );
+  });
 
   return (
     <Aux>
@@ -104,11 +121,7 @@ const signUpContainer = props => {
           <TitleLabel>Sign Up</TitleLabel>
           <div className={style.formContainer}>
             <form className={style.form}>
-              <input />
-              <input />
-              <input />
-              <input />
-              <input />
+              {inputs}
               <Button type="button" className="btn my-3">
                 Sign Up
               </Button>

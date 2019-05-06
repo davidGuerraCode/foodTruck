@@ -18,14 +18,13 @@
  * Take the user data and send via ajax to the server to persisted
  */
 
-import React, { useReducer } from 'react';
+import React, { useReducer, useRef } from 'react';
 
 import style from './signUp.module.css';
 import { Aux } from '../../../hoc';
 import { Background } from '../../../UI/';
 import { Card } from '../../../UI';
 import { TitleLabel } from '../../../UI';
-import { Button } from '../../../UI';
 import { Input } from '../../../UI';
 import { UpdateFormField } from './actions';
 import reducer from './signUpReducer';
@@ -84,11 +83,37 @@ const signUpContainer = props => {
     }
   };
 
-  const changeHandler = (event, id) =>
-    dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
-
   const [inputFactory, dispatch] = useReducer(reducer, initState);
   const formElementsArray = [];
+  const buttonElement = useRef(null);
+
+  const enableBtn = refElement => {
+    refElement.current.removeAttribute('disabled');
+    refElement.current.classList.remove('disabled');
+  };
+
+  const changeHandler = (event, id) => {
+    // Validate inputs
+    // If are valid
+    // Allow send form
+    dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
+    // validateField(event);
+    enableBtn(buttonElement);
+  };
+
+  const registerHandler = event => {
+    event.preventDefault();
+
+    const formData = {};
+
+    for (const formElementIdentifier in inputFactory) {
+      if (inputFactory.hasOwnProperty(formElementIdentifier)) {
+        formData[formElementIdentifier] = inputFactory[formElementIdentifier].value;
+      }
+    }
+
+    console.log('To send', formData);
+  };
 
   for (const key in inputFactory) {
     if (inputFactory.hasOwnProperty(key)) {
@@ -101,15 +126,14 @@ const signUpContainer = props => {
 
   const inputs = formElementsArray.map(el => {
     return (
-      <div key={el.id}>
-        <Input
-          changeHandler={event => changeHandler(event, el.id)}
-          elementType={el.conf.elementType}
-          elementConf={el.conf.elementConf}
-          value={el.conf.value}
-          icon={el.conf.icon}
-        />
-      </div>
+      <Input
+        changeHandler={event => changeHandler(event, el.id)}
+        elementType={el.conf.elementType}
+        elementConf={el.conf.elementConf}
+        value={el.conf.value}
+        icon={el.conf.icon}
+        key={el.id}
+      />
     );
   });
 
@@ -120,11 +144,15 @@ const signUpContainer = props => {
         <Card>
           <TitleLabel>Sign Up</TitleLabel>
           <div className={style.formContainer}>
-            <form className={style.form}>
+            <form onSubmit={registerHandler} className={style.form}>
               {inputs}
-              <Button type="button" className="btn my-3">
+              <button
+                ref={buttonElement}
+                type="submit"
+                disabled
+                className="btn disabled my-3">
                 Sign Up
-              </Button>
+              </button>
               <p className={style.changeSignin}>
                 Have an account? <span className={style.link}>Sign In.</span>
               </p>

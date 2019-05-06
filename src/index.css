@@ -2,6 +2,7 @@
   --main-bg-color: #ed553b;
   --secondary-color: #f2b134;
   --gray-shadow-color: rgba(0, 0, 0, 0.2);
+  /* --disabled-color: rgba(0, 0, 0, 0.2); */
   /* --gray-shadow-color: #b4b1b1; */
   --header-height: 65px;
   /* --main-gradient: linear-gradient(to left, #f6490d, #f74d1e, #f7512b, #f75536, #f75940); */
@@ -34,6 +35,11 @@ body {
 
 .btn .grow:hover {
   transform: scale(1.05);
+}
+
+.disabled {
+  background: var(--gray-shadow-color);
+  cursor: not-allowed;
 }
 
 .my-2 {

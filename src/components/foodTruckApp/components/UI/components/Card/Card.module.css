@@ -1,0 +1,19 @@
+.card {
+  width: auto;
+  height: auto;
+  background: #fff;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 2px var(--gray-shadow-color);
+  transition: all 0.3s ease-out;
+}
+
+.grow {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.grow:hover {
+  transform: scale(1.1);
+}

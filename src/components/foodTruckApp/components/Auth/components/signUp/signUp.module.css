@@ -1,0 +1,29 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.changeSignin {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.link {
+  color: var(--main-bg-color);
+  cursor: pointer;
+  font-weight: bold;
+}

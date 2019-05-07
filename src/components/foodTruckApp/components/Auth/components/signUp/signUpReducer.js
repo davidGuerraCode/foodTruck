@@ -1,6 +1,7 @@
 import { UPDATE_FORM_FIELD } from './actions';
+import checkValidity from './formFieldValidator';
 
-const reducer = (state = [], action) => {
+const reducer = (state, action) => {
   const getType = action && action.type;
   const getVal = action && action.val;
 
@@ -13,12 +14,16 @@ const reducer = (state = [], action) => {
       const currentElement = { ...newState[val.inputIdentifier] };
 
       currentElement.value = val.value;
+      currentElement.valid = checkValidity(
+        currentElement.value,
+        currentElement.validation
+      );
       newState[val.inputIdentifier] = currentElement;
-      console.log(newState);
+
       return newState;
 
     default:
-      break;
+      return state;
   }
 };
 

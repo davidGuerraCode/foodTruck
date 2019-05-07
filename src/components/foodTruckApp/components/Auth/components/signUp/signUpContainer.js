@@ -39,7 +39,11 @@ const signUpContainer = props => {
         name: 'firstname'
       },
       icon: 'fas fa-user',
-      value: ''
+      value: '',
+      validation: {
+        required: true
+      },
+      valid: false
     },
     lastname: {
       elementType: 'input',
@@ -59,7 +63,11 @@ const signUpContainer = props => {
         name: 'email'
       },
       icon: 'fas fa-envelope',
-      value: ''
+      value: '',
+      validation: {
+        required: true
+      },
+      valid: false
     },
     password: {
       elementType: 'input',
@@ -79,7 +87,11 @@ const signUpContainer = props => {
         name: 'confirm password'
       },
       icon: 'fas fa-lock',
-      value: ''
+      value: '',
+      validation: {
+        required: true
+      },
+      valid: false
     }
   };
 
@@ -87,18 +99,57 @@ const signUpContainer = props => {
   const formElementsArray = [];
   const buttonElement = useRef(null);
 
+  const changeHandler = (event, id) => {
+    return dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
+  };
+
+  const requiredFieldsAreValid = target => {
+    const name = target.name;
+    let validArray = [];
+
+    if (inputFactory[name].valid) {
+      console.log('IsValid');
+    }
+
+    /* for (const field in fields) {
+      if (fields.hasOwnProperty(field)) {
+        const getIsRequired =
+          fields[field].validation && fields[field].validation.required;
+        const isRequired = getIsRequired === undefined ? false : getIsRequired;
+
+        if (isRequired) {
+          validArray.push(fields[field]);
+        }
+      }
+    } */
+
+    console.log('[For]', inputFactory[name].valid);
+  };
+
   const enableBtn = refElement => {
     refElement.current.removeAttribute('disabled');
     refElement.current.classList.remove('disabled');
   };
 
-  const changeHandler = (event, id) => {
-    // Validate inputs
-    // If are valid
-    // Allow send form
-    dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
-    // validateField(event);
-    enableBtn(buttonElement);
+  const disableBtn = refElement => {
+    refElement.current.setAttribute('disabled', true);
+    refElement.current.classList.add('disabled');
+  };
+
+  const validateField = event => {
+    const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const type = event.target.type;
+    const value = event.target.value;
+
+    switch (type) {
+      case 'email':
+        const isValidEmail = new RegExp(mailRegex).test(value);
+
+        break;
+
+      default:
+        break;
+    }
   };
 
   const registerHandler = event => {
@@ -111,8 +162,6 @@ const signUpContainer = props => {
         formData[formElementIdentifier] = inputFactory[formElementIdentifier].value;
       }
     }
-
-    console.log('To send', formData);
   };
 
   for (const key in inputFactory) {
@@ -127,7 +176,12 @@ const signUpContainer = props => {
   const inputs = formElementsArray.map(el => {
     return (
       <Input
-        changeHandler={event => changeHandler(event, el.id)}
+        changeHandler={event => {
+          dispatch(
+            UpdateFormField({ inputIdentifier: el.id, value: event.target.value })
+          );
+          validateField(event);
+        }}
         elementType={el.conf.elementType}
         elementConf={el.conf.elementConf}
         value={el.conf.value}
@@ -147,6 +201,7 @@ const signUpContainer = props => {
             <form onSubmit={registerHandler} className={style.form}>
               {inputs}
               <button
+                title="Fill the form to sign up"
                 ref={buttonElement}
                 type="submit"
                 disabled

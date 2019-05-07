@@ -99,31 +99,8 @@ const signUpContainer = props => {
   const formElementsArray = [];
   const buttonElement = useRef(null);
 
-  const changeHandler = (event, id) => {
-    return dispatch(UpdateFormField({ inputIdentifier: id, value: event.target.value }));
-  };
-
-  const requiredFieldsAreValid = target => {
-    const name = target.name;
-    let validArray = [];
-
-    if (inputFactory[name].valid) {
-      console.log('IsValid');
-    }
-
-    /* for (const field in fields) {
-      if (fields.hasOwnProperty(field)) {
-        const getIsRequired =
-          fields[field].validation && fields[field].validation.required;
-        const isRequired = getIsRequired === undefined ? false : getIsRequired;
-
-        if (isRequired) {
-          validArray.push(fields[field]);
-        }
-      }
-    } */
-
-    console.log('[For]', inputFactory[name].valid);
+  const checkFieldsAreValid = target => {
+    console.log('[!]');
   };
 
   const enableBtn = refElement => {
@@ -134,22 +111,6 @@ const signUpContainer = props => {
   const disableBtn = refElement => {
     refElement.current.setAttribute('disabled', true);
     refElement.current.classList.add('disabled');
-  };
-
-  const validateField = event => {
-    const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const type = event.target.type;
-    const value = event.target.value;
-
-    switch (type) {
-      case 'email':
-        const isValidEmail = new RegExp(mailRegex).test(value);
-
-        break;
-
-      default:
-        break;
-    }
   };
 
   const registerHandler = event => {
@@ -177,10 +138,8 @@ const signUpContainer = props => {
     return (
       <Input
         changeHandler={event => {
-          dispatch(
-            UpdateFormField({ inputIdentifier: el.id, value: event.target.value })
-          );
-          validateField(event);
+          dispatch(UpdateFormField({ inputIdentifier: el.id, field: event.target }));
+          checkFieldsAreValid(inputFactory);
         }}
         elementType={el.conf.elementType}
         elementConf={el.conf.elementConf}

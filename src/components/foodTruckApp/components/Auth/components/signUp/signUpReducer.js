@@ -13,11 +13,8 @@ const reducer = (state, action) => {
       const newState = { ...state };
       const currentElement = { ...newState[val.inputIdentifier] };
 
-      currentElement.value = val.value;
-      currentElement.valid = checkValidity(
-        currentElement.value,
-        currentElement.validation
-      );
+      currentElement.value = val.field.value;
+      currentElement.valid = checkValidity(val.field, currentElement.validation);
       newState[val.inputIdentifier] = currentElement;
 
       return newState;

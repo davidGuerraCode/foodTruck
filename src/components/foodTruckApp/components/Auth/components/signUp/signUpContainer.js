@@ -139,7 +139,7 @@ const signUpContainer = props => {
       <Input
         changeHandler={event => {
           dispatch(UpdateFormField({ inputIdentifier: el.id, field: event.target }));
-          checkFieldsAreValid(inputFactory);
+          // checkFieldsAreValid(inputFactory);
         }}
         elementType={el.conf.elementType}
         elementConf={el.conf.elementConf}

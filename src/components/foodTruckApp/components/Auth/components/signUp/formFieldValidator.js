@@ -1,13 +1,10 @@
-/* const isRequired = () => {
-  throw new Error('param is required');
-}; */
-
 const checkValidity = (field, rules) => {
   const getRequired = rules && rules.required;
   const required = getRequired === undefined ? false : getRequired;
   const mailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const type = field.type;
   const value = field.value;
+  const CONFIRM_PASS = field.name;
 
   let isValid = false;
 

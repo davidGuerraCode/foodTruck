@@ -20,7 +20,6 @@ const reducer = (state, action) => {
       }
 
       newState[val.inputIdentifier] = currentElement;
-      console.log('[!] New state', newState);
       return newState;
 
     default:

@@ -1,3 +1,3 @@
-import { Aux } from './components/Aux';
+import { Help } from './components/Helper';
 
-export { Aux };
+export { Help };

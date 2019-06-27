@@ -21,7 +21,7 @@
 import React, { useReducer, useRef } from 'react';
 
 import style from './signUp.module.css';
-import { Aux } from '../../../hoc';
+import { Help } from '../../../hoc';
 import { Background } from '../../../UI/';
 import { Card } from '../../../UI';
 import { TitleLabel } from '../../../UI';
@@ -77,7 +77,11 @@ const signUpContainer = props => {
         name: 'password'
       },
       icon: 'fas fa-lock',
-      value: ''
+      value: '',
+      validation: {
+        required: true
+      },
+      valid: false
     },
     confirmPassword: {
       elementType: 'input',
@@ -139,7 +143,6 @@ const signUpContainer = props => {
       <Input
         changeHandler={event => {
           dispatch(UpdateFormField({ inputIdentifier: el.id, field: event.target }));
-          // checkFieldsAreValid(inputFactory);
         }}
         elementType={el.conf.elementType}
         elementConf={el.conf.elementConf}
@@ -151,7 +154,7 @@ const signUpContainer = props => {
   });
 
   return (
-    <Aux>
+    <Help>
       <Background />
       <div className={style.container}>
         <Card>
@@ -164,7 +167,8 @@ const signUpContainer = props => {
                 ref={buttonElement}
                 type="submit"
                 disabled
-                className="btn disabled my-3">
+                className="btn disabled my-3"
+              >
                 Sign Up
               </button>
               <p className={style.changeSignin}>
@@ -174,7 +178,7 @@ const signUpContainer = props => {
           </div>
         </Card>
       </div>
-    </Aux>
+    </Help>
   );
 };
 

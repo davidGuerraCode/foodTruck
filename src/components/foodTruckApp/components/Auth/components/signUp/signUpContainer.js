@@ -103,20 +103,6 @@ const signUpContainer = props => {
   const formElementsArray = [];
   const buttonElement = useRef(null);
 
-  const checkFieldsAreValid = target => {
-    console.log('[!]');
-  };
-
-  const enableBtn = refElement => {
-    refElement.current.removeAttribute('disabled');
-    refElement.current.classList.remove('disabled');
-  };
-
-  const disableBtn = refElement => {
-    refElement.current.setAttribute('disabled', true);
-    refElement.current.classList.add('disabled');
-  };
-
   const registerHandler = event => {
     event.preventDefault();
 

@@ -49,3 +49,9 @@ body {
 .my-3 {
   margin: 0.75rem 0;
 }
+
+.error_message {
+  font-size: 0.7rem;
+  color: red;
+  font-weight: 700;
+}

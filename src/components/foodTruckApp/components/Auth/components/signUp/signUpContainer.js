@@ -33,23 +33,17 @@ import checkValidity from './formFieldValidator';
 import useForm from './useForm';
 
 const signUpContainer = props => {
-  const [inputFactory, dispatch] = useReducer(reducer, formFieldsDefinition);
+  const [inputFactory, dispatch] = useReducer(reducer, formFieldsDefinition());
   const [formIsValid, setFormIsValid] = useState(false);
   const { values, onChangeHandler, errors } = useForm(checkValidity);
   const buttonClasses = ['btn my-3'];
   const formElementsArray = [];
 
-  console.log('[Y]', errors);
+  console.log('[!]', errors);
 
   if (!formIsValid) {
     buttonClasses.push('disabled');
   }
-
-  /* const validateForm = values => {
-    let errors = {};
-
-    if(values.)
-  } */
 
   const registerHandler = event => {
     event.preventDefault();
@@ -74,18 +68,18 @@ const signUpContainer = props => {
 
   const inputs = formElementsArray.map(el => {
     return (
-      <Input
-        /* changeHandler={event => {
-          dispatch(UpdateFormField({ inputIdentifier: el.id, field: event.target }));
-        }} */
-        changeHandler={onChangeHandler}
-        elementType={el.conf.elementType}
-        elementConf={el.conf.elementConf}
-        value={values[el.conf.value]}
-        // value={el.conf.value}
-        icon={el.conf.icon}
-        key={el.id}
-      />
+      <div key={el.id}>
+        <Input
+          changeHandler={onChangeHandler}
+          elementType={el.conf.elementType}
+          elementConf={el.conf.elementConf}
+          value={values[el.conf.value]}
+          icon={el.conf.icon}
+        />
+        {Object.keys(errors).length > 0 && (
+          <div className="error_message">{errors[el.id]}</div>
+        )}
+      </div>
     );
   });
 

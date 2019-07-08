@@ -1,4 +1,4 @@
-const formFieldsDefinition = {
+const formFieldsDefinition = () => ({
   firstname: {
     elementType: 'input',
     elementConf: {
@@ -10,8 +10,7 @@ const formFieldsDefinition = {
     value: '',
     validation: {
       required: true
-    },
-    valid: false
+    }
   },
   lastname: {
     elementType: 'input',
@@ -34,8 +33,7 @@ const formFieldsDefinition = {
     value: '',
     validation: {
       required: true
-    },
-    valid: false
+    }
   },
   password: {
     elementType: 'input',
@@ -48,8 +46,7 @@ const formFieldsDefinition = {
     value: '',
     validation: {
       required: true
-    },
-    valid: false
+    }
   },
   confirmPassword: {
     elementType: 'input',
@@ -62,9 +59,8 @@ const formFieldsDefinition = {
     value: '',
     validation: {
       required: true
-    },
-    valid: false
+    }
   }
-};
+});
 
 export default formFieldsDefinition;

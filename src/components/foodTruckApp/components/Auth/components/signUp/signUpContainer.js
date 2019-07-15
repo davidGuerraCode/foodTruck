@@ -18,7 +18,7 @@
  * Take the user data and send via ajax to the server to persisted
  */
 
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 
 import style from './signUp.module.css';
 import { Help } from '../../../hoc';
@@ -26,20 +26,15 @@ import { Background } from '../../../UI/';
 import { Card } from '../../../UI';
 import { TitleLabel } from '../../../UI';
 import { Input } from '../../../UI';
-import { UpdateFormField } from './actions';
-import reducer from './signUpReducer';
 import formFieldsDefinition from './formFieldsFactory';
-import checkValidity from './formFieldValidator';
 import useForm from './useForm';
 
 const signUpContainer = props => {
-  const [inputFactory, dispatch] = useReducer(reducer, formFieldsDefinition());
+  const [inputFactory] = useState(formFieldsDefinition());
   const [formIsValid, setFormIsValid] = useState(false);
-  const { values, onChangeHandler, errors } = useForm(checkValidity);
+  const { values, onChangeHandler, errors } = useForm();
   const buttonClasses = ['btn my-3'];
   const formElementsArray = [];
-
-  console.log('[!]', errors);
 
   if (!formIsValid) {
     buttonClasses.push('disabled');

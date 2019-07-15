@@ -53,7 +53,7 @@ const formFieldsDefinition = () => ({
     elementConf: {
       placeholder: 'Confirm password',
       type: 'password',
-      name: 'confirm password'
+      name: 'confirmPassword'
     },
     icon: 'fas fa-lock',
     value: '',
